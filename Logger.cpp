@@ -1,4 +1,5 @@
 #include "Logger.h"
+#include "Timestamp.h"
 
 #include <iostream>
 //获取日志唯一的实例对象
@@ -21,18 +22,18 @@ void Logger::log(std::string msg)
             std::cout<<"[INFO]";
             break;
         case ERROR:
-            std::cout<<"[INFO]";
+            std::cout<<"[ERROR]";
             break;
         case FATAL:
-            std::cout<<"[INFO]";
+            std::cout<<"[FATAL]";
             break;
         case DEBUG:
-            std::cout<<"[INFO]";
+            std::cout<<"[DEBUG]";
             break;
         default:
             break;    
     }
 
     //打印时间和msg
-    std::cout<<"print time"<<":"<<msg;
+    std::cout<<"Timestamp::now().toString()"<<":"<<msg;
 }

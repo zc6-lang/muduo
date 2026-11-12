@@ -2,7 +2,9 @@
 #include "Logger.h"
 #include "Channel.h"
 
+#include <unistd.h>
 #include <errno.h>
+#include <strings.h>
 
 const int kNew=-1;//channel未添加到poller中
 const int kAdded=1;//channel已添加到poller中
@@ -27,7 +29,7 @@ EPollPoller::~EPollPoller()
 
 Timestamp EPollPoller::poll(int timeoutMs,ChannelList *activeChannels)
 {
-    LOG_INFO("func=%s => fd total count:%d\n",channels_.size());
+    LOG_INFO("func=%s => fd total count:%lu \n",__FUNCTION__,channels_.size());
 
     int numEvent = ::epoll_wait(epollfd_,&*events_.begin(),static_cast<int>(events_.size()),timeoutMs);
     int saveErrno = errno;
@@ -63,7 +65,7 @@ void EPollPoller::updateChannel(Channel *channel)
     const int idx=channel->index();
     LOG_INFO("func=%s => fd=%d events=%d index=%d \n",__FUNCTION__,channel->fd(),channel->events(),idx);
 
-    if( idx==kNew || idx=kDeleted)
+    if( idx == kNew || idx == kDeleted)
     {
         if(idx==kNew)
         {
@@ -110,7 +112,7 @@ void EPollPoller::removeChannel(Channel *channel)
 void EPollPoller::update(int operation,Channel *channel)
 {
     epoll_event event;
-    memset(&event,0,sizeof event);
+    bzero(&event,sizeof event);
 
     int fd=channel->fd();
     event.events=channel->events();
@@ -131,7 +133,7 @@ void EPollPoller::update(int operation,Channel *channel)
 }
 
  //填写活跃的连接
-void EPollPoller::fillActiveChannels(int numEvents,ChannelList *activeChannels)
+void EPollPoller::fillActiveChannels(int numEvents,ChannelList *activeChannels) const
 {
     for(int i=0;i<numEvents;++i)
     {

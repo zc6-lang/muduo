@@ -1,0 +1,43 @@
+# 编译产物
+build/
+cmake-build-*/
+out/
+bin/
+obj/
+lib/
+*.o
+*.a
+*.so
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.exp
+
+# IDE 配置
+.vscode/
+.idea/
+*.suo
+*.sln
+*.vcxproj.user
+*.cbp
+*.layout
+*.depend
+CLion/
+
+# 操作系统垃圾
+.DS_Store
+Thumbs.db
+
+# 日志、临时文件
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# 缓存
+__pycache__/
+*.pyc
+

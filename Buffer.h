@@ -100,6 +100,26 @@ public:
             makeSpace(len);//扩容函数
         }
     }
+
+    //把data到data+len内存上的数据，添加到writeable缓冲区中
+    void append(const char*data,size_t len)
+    {
+        ensureWriteableBytes(len);//确保有足够的空间
+        std::copy(data,data+len,beginWrite());
+        writerIndex_+=len;
+    }
+
+    char* beginWrite()
+    {
+        return begin()+writerIndex_;
+    }
+
+    const char* beginWrite()const 
+    {
+        return begin()+writerIndex_;
+    }
+
+    ssize_t readFd(int fd,int *savedErrno);
 private:
     std::vector<char> buffer_;
     size_t readerIndex_;
